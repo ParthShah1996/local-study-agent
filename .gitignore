@@ -1,0 +1,15 @@
+# Private data - never upload
+docs/*
+!docs/.gitkeep
+chroma_db/
+Roadmap.md
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Secrets and local files
+.env
+.DS_Store
+Thumbs.db
