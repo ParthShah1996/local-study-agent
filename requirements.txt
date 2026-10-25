@@ -1,4 +1,4 @@
-pymupdf
+pymupdf==1.23.6
 chromadb
 ollama
 langchain-text-splitters
