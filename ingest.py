@@ -183,7 +183,7 @@ def main():
     try:
         client.delete_collection(name=COLLECTION)  # rebuild from scratch each time
         print(f"Cleared old collection: {COLLECTION}")
-    except Exception:
+    except Exception:  # noqa: BLE001, S110
         pass
     col = client.create_collection(name=COLLECTION, metadata={"hnsw:space": "cosine"})
 
