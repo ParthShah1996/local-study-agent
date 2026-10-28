@@ -1,4 +1,6 @@
-chromadb
-pymupdf
-ollama
-langchain-text-splitters
+chromadb==1.5.9
+langchain-text-splitters==1.1.3
+ollama==0.6.3
+pymupdf==2.0
+pymupdf4llm==2.0
+pymupdf_layout==2.0
