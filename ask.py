@@ -26,7 +26,7 @@ def main():
     client = chromadb.PersistentClient(path=str(DB_DIR))
     try:
         col = client.get_collection(COLLECTION)
-    except Exception:
+    except Exception:  # noqa: BLE001
         print("No database found. Run python ingest.py")
         sys.exit(1)
 
