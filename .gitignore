@@ -8,6 +8,7 @@ Roadmap.md
 .venv/
 __pycache__/
 *.pyc
+.venv311
 
 # Secrets and local files
 .env
