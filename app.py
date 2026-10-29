@@ -18,7 +18,7 @@ def chat(message, history):
 
     try:
         chunks = rag.retreive(message)
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         yield(
             f"Error: {e}\n\n"
             "Check 1: did you run `python ingest.py\n"
