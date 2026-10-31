@@ -7,3 +7,7 @@ pymupdf_layout==2.0
 gradio==6.31.0
 gradio_client==2.7.2
 hf-gradio==0.4.1
+langgraph==1.2.19
+langgraph-checkpoint==4.3.1
+langgraph-prebuilt==1.1.1
+langgraph-sdk==0.4.11
