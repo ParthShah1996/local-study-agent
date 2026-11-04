@@ -2,8 +2,10 @@
 #                                    IMPORTS                                   #
 # ---------------------------------------------------------------------------- #
 import sys
+import uuid
 
 import rag
+from graph import ask_stream, build_graph
 
 
 # ---------------------------------------------------------------------------- #
@@ -16,7 +18,10 @@ def main():
         print("No database found. Run python ingest.py")
         sys.exit(1)
 
-    print("Study agent ready. Type 'exit' to stop.")
+    graph = build_graph()
+    thread_id = uuid.uuid4().hex
+
+    print("Study agent ready. Type 'exit' to stop. '/new' for a new chat.")
 
     # Infinite loop to start chat
     while True:
@@ -25,17 +30,23 @@ def main():
             break
         if not question:
             continue
+        if question.lower() == "/new":
+            thread_id = uuid.uuid4().hex
+            print("New chat started. Old messages are forgotten.")
+            continue
 
-        chunks = rag.retreive(question)
-
-        print("\nTutor: ", end="", flush=True)
-        answer = ""
-        for piece in rag.stream_answer(question, chunks):
-            answer += piece
-            print(piece, end="", flush=True)
-
-        print("\n\n" + rag.format_sources(answer, chunks))
-        
+        started = False
+        for event in ask_stream(graph, question, thread_id):
+            if "status" in event:
+                print(f" ({event['status']})")
+            elif "token" in event:
+                if not started:
+                    print("\nTutor: ", end="", flush=True)
+                    started = True
+                print(event["token"], end="", flush=True)
+            elif "sources" in event:
+                print("\n\n" + event["sources"])
+                
 
 if __name__ == "__main__":
     main()

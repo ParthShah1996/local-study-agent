@@ -18,8 +18,8 @@ It answers from my own PDF and Python study files first, and shows the source (f
 - [x] Local embeddings and a local vector database (Chroma)
 - [x] Local chat model with Ollama
 - [x] Answers with citations: file name + page (PDF) or line (Python)
-- [ ] Chat screen (Gradio)
-- [ ] LangGraph agent flow with memory
+- [x] Chat screen (Gradio)
+- [x] LangGraph agent flow with memory
 - [ ] Web search only when my documents are not enough
 - [ ] Tutor mode: curriculum, teaching, quizzes, "what to study next"
 - [ ] Interview preparation mode
