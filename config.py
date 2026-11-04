@@ -15,3 +15,5 @@ TOP_K = 5
 NUM_CTX = 4096 #SMALL CONTEXT SAVES VRAM
 BATCH = 32
 
+MIN_SCORE = 0.58          # best match below this = "not in my documents"
+MAX_HISTORY_TURNS = 3     # how many old question+answer pairs the rewriter sees
