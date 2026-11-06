@@ -20,7 +20,7 @@ It answers from my own PDF and Python study files first, and shows the source (f
 - [x] Answers with citations: file name + page (PDF) or line (Python)
 - [x] Chat screen (Gradio)
 - [x] LangGraph agent flow with memory
-- [ ] Web search only when my documents are not enough
+- [x] Web search only when my documents are not enough
 - [ ] Tutor mode: curriculum, teaching, quizzes, "what to study next"
 - [ ] Interview preparation mode
 - [ ] Daily task automation
