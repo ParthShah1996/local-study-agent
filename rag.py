@@ -22,7 +22,7 @@ _collection = None
 
 def get_collection():
     """Open the Chroma collection one time and reuse it."""
-    global _collection # Why do we define to _collection variables
+    global _collection
     if _collection is None:
         client = chromadb.PersistentClient(path = str(DB_DIR))
         _collection = client.get_collection(COLLECTION)
@@ -30,16 +30,24 @@ def get_collection():
 
 
 # ------------------------------ CHUNK RETREIVAL ----------------------------- #
-def retreive(question):
-    """Return the closest chunks as a list of dicts."""
+def retreive(question, source=None, k=None, max_chars=None):
+    """Return the closest chunks as a list of dicts.
+    
+    source:     only search inside this one file (its path inside docs/)
+    k:          how many chunks (default TOP_K)
+    max_chars:  cut each chunnks to this length (default: no cut)          
+    """
     col = get_collection()
     q_emb = ollama.embed(
         model=EMBED_MODEL, input="search_query: " + question
         )["embeddings"][0]
+
+    extra = {"where": {"source": source}} if source else {}
     res = col.query(
         query_embeddings=[q_emb],
-        n_results=TOP_K,
+        n_results=k or TOP_K,
         include=["documents", "metadatas", "distances"],
+        **extra,
     )
     chunks = []
     for doc, m, d in zip(res["documents"][0], res["metadatas"][0], res["distances"][0]):
@@ -56,7 +64,7 @@ def retreive(question):
     return chunks
 
 # --------------------------- CHAT MESSAGE BUILDER --------------------------- #
-def build_messages(question, chunks):
+def build_messages(question, chunks, system_prompt=None):
     """Make the numbered context and the chat messages"""
     blocks = []
     for i, c in enumerate(chunks, start=1):
@@ -64,16 +72,16 @@ def build_messages(question, chunks):
         blocks.append(f"{i} ({c['source']}, {c['kind']} {c['location']})\n{text}")
     context = "\n\n".join(blocks)
     return [
-        {"role": "system", "content": SYSTEM_PROMPT},
+        {"role": "system", "content": system_prompt or SYSTEM_PROMPT},
         {"role": "user", "content": f"CONTEXT:\n{context}\n\nQUESTION: {question}"},
     ]
 
 # ---------------------------- STREAM CHAT ANSWERS --------------------------- #
-def stream_answer(question, chunks):
+def stream_answer(question, chunks, system_prompt=None):
     """Yield the answer in small chunks"""
     stream = ollama.chat(
         model=CHAT_MODEL,
-        messages=build_messages(question, chunks),
+        messages=build_messages(question, chunks, system_prompt),
         options={"num_ctx": NUM_CTX, "temperature": 0.2},
         stream=True,
     )
