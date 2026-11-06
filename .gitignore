@@ -3,6 +3,8 @@ docs/*
 !docs/.gitkeep
 chroma_db/
 Roadmap.md
+curriculum.json
+progress.json
 
 # Python
 .venv/
@@ -14,3 +16,4 @@ __pycache__/
 .env
 .DS_Store
 Thumbs.db
+
