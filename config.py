@@ -17,3 +17,7 @@ BATCH = 32
 
 MIN_SCORE = 0.58          # best match below this = "not in my documents"
 MAX_HISTORY_TURNS = 3     # how many old question+answer pairs the rewriter sees
+
+
+WEB_SEARCH = True         # False = never use the internet
+WEB_MAX_RESULTS = 5       # how many web results to read
